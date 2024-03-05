@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,9 +18,6 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class PostService {
     private final PostRepository postRepository;
-    @PersistenceContext
-    private EntityManager entityManager;
-    private final ApplicationEventPublisher publisher;
 
     @Transactional
     public RsData<Post> write(String title) {
@@ -38,6 +36,10 @@ public class PostService {
 
     public Optional<Post> findById(long id) {
         return postRepository.findById(id);
+    }
+
+    public Optional<Post> findWithShareLockById(long id) {
+        return postRepository.findWithShareLockById(id);
     }
 }
 

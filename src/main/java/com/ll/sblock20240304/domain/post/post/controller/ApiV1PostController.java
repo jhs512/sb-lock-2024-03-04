@@ -3,6 +3,7 @@ package com.ll.sblock20240304.domain.post.post.controller;
 import com.ll.sblock20240304.domain.post.post.entity.Post;
 import com.ll.sblock20240304.domain.post.post.service.PostService;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,5 +22,17 @@ public class ApiV1PostController {
             @PathVariable long id
     ) {
         return postService.findById(id).get();
+    }
+
+    @SneakyThrows
+    @GetMapping("/{id}/withShareLock")
+    public Post getWithShareLockPost(
+            @PathVariable long id
+    ) {
+        Post post = postService.findWithShareLockById(id).get();
+
+        Thread.sleep(10_000L);
+
+        return post;
     }
 }
