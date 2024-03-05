@@ -4,6 +4,7 @@ import com.ll.sblock20240304.domain.post.post.entity.Post;
 import com.ll.sblock20240304.domain.post.post.repository.PostRepository;
 import com.ll.sblock20240304.global.rsData.RsData;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,9 +51,13 @@ public class PostService {
         return post;
     }
 
+    @SneakyThrows
     @Transactional
     public Post modifyWithOptimistic(long id, String title) {
         Post post = postRepository.findById(id).get();
+
+        Thread.sleep(10_000L);
+
         post.setTitle(title);
 
         return post;
