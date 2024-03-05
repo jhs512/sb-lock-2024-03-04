@@ -3,14 +3,10 @@ package com.ll.sblock20240304.domain.post.post.service;
 import com.ll.sblock20240304.domain.post.post.entity.Post;
 import com.ll.sblock20240304.domain.post.post.repository.PostRepository;
 import com.ll.sblock20240304.global.rsData.RsData;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,6 +40,22 @@ public class PostService {
 
     public Optional<Post> findWithWriteLockById(long id) {
         return postRepository.findWithWriteLockById(id);
+    }
+
+    @Transactional
+    public Post modifyWithPessimistic(long id, String title) {
+        Post post = postRepository.findWithWriteLockById(id).get();
+        post.setTitle(title);
+
+        return post;
+    }
+
+    @Transactional
+    public Post modifyWithOptimistic(long id, String title) {
+        Post post = postRepository.findById(id).get();
+        post.setTitle(title);
+
+        return post;
     }
 }
 
