@@ -3,6 +3,7 @@ package com.ll.sblock20240304.domain.post.post.service;
 import com.ll.sblock20240304.domain.post.post.entity.Post;
 import com.ll.sblock20240304.domain.post.post.repository.PostRepository;
 import com.ll.sblock20240304.global.rsData.RsData;
+import com.ll.sblock20240304.standard.dto.retryOnOptimisticLock.RetryOnOptimisticLock;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
@@ -55,6 +56,8 @@ public class PostService {
     @Transactional
     public Post modifyWithOptimistic(long id, String title) {
         Post post = postRepository.findById(id).get();
+
+        write("제목 new");
 
         Thread.sleep(10_000L);
 
